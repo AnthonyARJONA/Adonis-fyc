@@ -2,6 +2,8 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Application from '@ioc:Adonis/Core/Application'
 import Database from '@ioc:Adonis/Lucid/Database'
 import crypto from 'crypto'
+// import Mail from '@ioc:Adonis/Addons/Mail'
+import FileMailer from '@ioc:FileMailer'
 export default class FilesController {
   public async formulaire({ view }) {
     return view.render('formulaire')
@@ -41,6 +43,8 @@ export default class FilesController {
       sender,
       receiver,
     })
+
+    await FileMailer.send(sender, receiver, file.fileName + '.' + file.extname)
 
     return 'File uploaded successfully'
   }

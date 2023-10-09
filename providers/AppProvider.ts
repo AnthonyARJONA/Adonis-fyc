@@ -1,10 +1,14 @@
+import { Ioc } from '@adonisjs/core/build/standalone'
 import type { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import FileMailer from 'App/Services/FileMailer'
 
 export default class AppProvider {
   constructor(protected app: ApplicationContract) {}
 
   public register() {
-    // Register your own bindings
+    this.app.container.singleton('FileMailer', (ioc: Ioc) => {
+      return new FileMailer(ioc.resolveBinding('Adonis/Addons/Mail'))
+    })
   }
 
   public async boot() {
